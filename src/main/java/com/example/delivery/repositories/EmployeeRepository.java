@@ -31,28 +31,28 @@ public class EmployeeRepository {
     };
 
     public int save(Employee employee) {
-        String sql = "INSERT INTO employees (name) VALUES (?)";
+        String sql = "INSERT INTO employee (name) VALUES (?)";
         return jdbcTemplate.update(sql, employee.getName());
     }
 
     public Optional<Employee> findById(Long id) {
-        String sql = "SELECT * FROM employees WHERE id = ?";
+        String sql = "SELECT * FROM employee WHERE id = ?";
         Employee employee = jdbcTemplate.queryForObject(sql, new Object[]{id}, rowMapper);
         return Optional.ofNullable(employee);
     }
 
     public List<Employee> findAll() {
-        String sql = "SELECT * FROM employees";
+        String sql = "SELECT * FROM employee";
         return jdbcTemplate.query(sql, rowMapper);
     }
 
     public int update(Employee employee) {
-        String sql = "UPDATE employees SET name = ? WHERE id = ?";
+        String sql = "UPDATE employee SET name = ? WHERE id = ?";
         return jdbcTemplate.update(sql, employee.getName(), employee.getId());
     }
 
     public int deleteById(Long id) {
-        String sql = "DELETE FROM employees WHERE id = ?";
+        String sql = "DELETE FROM employee WHERE id = ?";
         return jdbcTemplate.update(sql, id);
     }
 }

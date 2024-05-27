@@ -34,28 +34,28 @@ public class PackageRepository {
     };
 
     public int save(Package pack) {
-        String sql = "INSERT INTO packages (id, description, delivery_address, employee_id) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO package (id, description, delivery_address, employee_id) VALUES (?, ?, ?, ?)";
         return jdbcTemplate.update(sql, UUID.randomUUID().toString(), pack.getDescription(), pack.getDeliveryAddress(), pack.getEmployee().getId());
     }
 
     public Optional<Package> findById(UUID id) {
-        String sql = "SELECT * FROM packages WHERE id = ?";
+        String sql = "SELECT * FROM package WHERE id = ?";
         Package pack = jdbcTemplate.queryForObject(sql, new Object[]{id.toString()}, rowMapper);
         return Optional.ofNullable(pack);
     }
 
     public List<Package> findAll() {
-        String sql = "SELECT * FROM packages";
+        String sql = "SELECT * FROM package";
         return jdbcTemplate.query(sql, rowMapper);
     }
 
     public int update(Package pack) {
-        String sql = "UPDATE packages SET description = ?, delivery_address = ?, employee_id = ? WHERE id = ?";
+        String sql = "UPDATE package SET description = ?, delivery_address = ?, employee_id = ? WHERE id = ?";
         return jdbcTemplate.update(sql, pack.getDescription(), pack.getDeliveryAddress(), pack.getEmployee().getId(), pack.getId().toString());
     }
 
     public int deleteById(UUID id) {
-        String sql = "DELETE FROM packages WHERE id = ?";
+        String sql = "DELETE FROM package WHERE id = ?";
         return jdbcTemplate.update(sql, id.toString());
     }
 }
