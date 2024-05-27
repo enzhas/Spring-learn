@@ -4,7 +4,8 @@ public class Employee {
     private Long id;
     private String name;
 
-    public Employee(String name) {
+    public Employee(int id, String name) {
+        this.id = (long) id; // convert int to long
         this.name = name;
     }
 

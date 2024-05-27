@@ -31,8 +31,9 @@ public class EmployeeRepository {
     };
 
     public int save(Employee employee) {
-        String sql = "INSERT INTO employee (name) VALUES (?)";
-        return jdbcTemplate.update(sql, employee.getName());
+        String sql = "INSERT INTO employee (id, name) VALUES (?, ?)";
+        Long id = jdbcTemplate.queryForObject("SELECT NEXTVAL ('empl_id')", Long.class);
+        return jdbcTemplate.update(sql, id, employee.getName());
     }
 
     public Optional<Employee> findById(Long id) {
