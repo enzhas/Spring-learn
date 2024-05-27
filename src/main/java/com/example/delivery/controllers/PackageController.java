@@ -5,31 +5,34 @@ import com.example.delivery.services.PackageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/packages")
 public class PackageController {
+
     @Autowired
     private PackageService packageService;
 
-    @GetMapping("/{id}")
-    public Optional<Package> getPackageById(@PathVariable Long id) {
-        return packageService.getPackageById(id);
-    }
-
     @GetMapping
-    public Iterable<Package> getAllPackages() {
+    public List<Package> getAllPackages() {
         return packageService.getAllPackages();
     }
 
+    @GetMapping("/{id}")
+    public Optional<Package> getPackageById(@PathVariable UUID id) {
+        return packageService.getPackageById(id);
+    }
+
     @PostMapping
-    public Package createPackage(@RequestBody Package pkg) {
-        return packageService.savePackage(pkg);
+    public int createPackage(@RequestBody Package pack) {
+        return packageService.savePackage(pack);
     }
 
     @DeleteMapping("/{id}")
-    public void deletePackage(@PathVariable Long id) {
-        packageService.deletePackage(id);
+    public int deletePackage(@PathVariable UUID id) {
+        return packageService.deletePackage(id);
     }
 }

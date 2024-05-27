@@ -1,35 +1,27 @@
 package com.example.delivery.models;
+
 import java.util.UUID;
-import jakarta.persistence.*;
 
-@Entity
-@Table(name = "packages")
 public class Package {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
-
-    @Column(name = "description")
     private String description;
-
-    @Column(name = "deliveryAddress")
     private String deliveryAddress;
-
-    @ManyToOne
-    @JoinColumn(name = "employees_id")
     private Employee employee;
 
-
-
-    public Package(String description, String deliveryAddress, Employee employees_id) {
+    public Package(String description, String deliveryAddress, Employee employee) {
         this.description = description;
         this.deliveryAddress = deliveryAddress;
-        this.employee = employees_id;
+        this.employee = employee;
     }
+
     public Package() {}
 
     public UUID getId() {
         return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public String getDescription() {
@@ -48,8 +40,16 @@ public class Package {
         this.deliveryAddress = deliveryAddress;
     }
 
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
     @Override
     public String toString() {
-        return "Package [id=" + id + ", desc=" + description + ", deliveryAddress=" + deliveryAddress + ", employees_id=" + employee + "]";
+        return "Package [id=" + id + ", description=" + description + ", deliveryAddress=" + deliveryAddress + ", employee=" + employee + "]";
     }
 }

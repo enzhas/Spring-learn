@@ -1,8 +1,58 @@
 package com.example.delivery.repositories;
 
 import com.example.delivery.models.Employee;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
-public interface EmployeeRepository extends CrudRepository<Employee, Long> {
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Optional;
 
+@Repository
+public class EmployeeRepository {
+    private final JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    public EmployeeRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    private RowMapper<Employee> rowMapper = new RowMapper<Employee>() {
+        @Override
+        public Employee mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Employee employee = new Employee();
+            employee.setId(rs.getLong("id"));
+            employee.setName(rs.getString("name"));
+            return employee;
+        }
+    };
+
+    public int save(Employee employee) {
+        String sql = "INSERT INTO employees (name) VALUES (?)";
+        return jdbcTemplate.update(sql, employee.getName());
+    }
+
+    public Optional<Employee> findById(Long id) {
+        String sql = "SELECT * FROM employees WHERE id = ?";
+        Employee employee = jdbcTemplate.queryForObject(sql, new Object[]{id}, rowMapper);
+        return Optional.ofNullable(employee);
+    }
+
+    public List<Employee> findAll() {
+        String sql = "SELECT * FROM employees";
+        return jdbcTemplate.query(sql, rowMapper);
+    }
+
+    public int update(Employee employee) {
+        String sql = "UPDATE employees SET name = ? WHERE id = ?";
+        return jdbcTemplate.update(sql, employee.getName(), employee.getId());
+    }
+
+    public int deleteById(Long id) {
+        String sql = "DELETE FROM employees WHERE id = ?";
+        return jdbcTemplate.update(sql, id);
+    }
 }
