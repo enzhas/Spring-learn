@@ -1,5 +1,6 @@
 package com.example.delivery.repositories;
 
+import com.example.delivery.models.Employee;
 import com.example.delivery.models.Package;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -28,14 +29,23 @@ public class PackageRepository {
             pack.setId(UUID.fromString(rs.getString("id")));
             pack.setDescription(rs.getString("description"));
             pack.setDeliveryAddress(rs.getString("delivery_address"));
-            // Fetch Employee data if needed
+
+            Employee employee = new Employee();
+            employee.setId(rs.getLong("employee_id"));
+
+            pack.setEmployee(employee);
             return pack;
         }
     };
 
     public int save(Package pack) {
         String sql = "INSERT INTO package (id, description, delivery_address, employee_id) VALUES (?, ?, ?, ?)";
-        return jdbcTemplate.update(sql, UUID.randomUUID().toString(), pack.getDescription(), pack.getDeliveryAddress(), pack.getEmployee().getId());
+
+//        String sql_free_employee = "INSERT INTO employee (employee_id) VALUES (?)";
+        System.out.println();
+        System.out.println(pack);
+        System.out.println();
+        return jdbcTemplate.update(sql, UUID.randomUUID(), pack.getDescription(), pack.getDeliveryAddress(), pack.getEmployee().getId());
     }
 
     public Optional<Package> findById(UUID id) {

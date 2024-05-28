@@ -27,7 +27,15 @@ public class PackageController {
 
     @PostMapping
     public int createPackage(@RequestBody Package pack) {
+        System.out.println();
+        System.out.println(pack);
+        System.out.println();
         return packageService.savePackage(pack);
+    }
+
+    @PutMapping("/{id}")
+    public int updatePackage(@RequestBody Package pack) {
+        return packageService.updatePackage(pack);
     }
 
     @DeleteMapping("/{id}")

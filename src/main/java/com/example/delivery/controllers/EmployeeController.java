@@ -35,6 +35,11 @@ public class EmployeeController {
         return employeeService.updateEmployee(employee);
     }
 
+    @PutMapping("/{id}")
+    public int changeEmployeeSatus(@PathVariable Long id) {
+        return employeeService.changeEmployeeSatus(id);
+    }
+
     @DeleteMapping("/{id}")
     public int deleteEmployee(@PathVariable Long id) {
         return employeeService.deleteEmployee(id);

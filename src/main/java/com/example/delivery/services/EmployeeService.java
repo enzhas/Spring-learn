@@ -34,6 +34,10 @@ public class EmployeeService {
         return employeeRepository.update(employee);
     }
 
+    public int changeEmployeeSatus(Long id) {
+        return employeeRepository.changeStatus(id);
+    }
+
     public int deleteEmployee(Long id) {
         return employeeRepository.deleteById(id);
     }

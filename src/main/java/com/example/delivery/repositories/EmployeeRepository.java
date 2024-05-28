@@ -52,6 +52,15 @@ public class EmployeeRepository {
         return jdbcTemplate.update(sql, employee.getName(), employee.getId());
     }
 
+    public int changeStatus(Long id){
+        String sql = "UPDATE employee SET status = ? WHERE id = ?";
+        Optional<Employee> employee = findById(id);
+        if(employee.isPresent()){
+            return jdbcTemplate.update(sql, employee.get().getStatus(), id);
+        }
+        return 0;
+    }
+
     public int deleteById(Long id) {
         String sql = "DELETE FROM employee WHERE id = ?";
         return jdbcTemplate.update(sql, id);

@@ -28,7 +28,14 @@ public class PackageService {
     }
 
     public int savePackage(Package pack) {
+        System.out.println();
+        System.out.println(pack);
+        System.out.println();
         return packageRepository.save(pack);
+    }
+
+    public int updatePackage(Package pack) {
+        return packageRepository.update(pack);
     }
 
     public int deletePackage(UUID id) {

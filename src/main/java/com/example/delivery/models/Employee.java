@@ -3,10 +3,17 @@ package com.example.delivery.models;
 public class Employee {
     private Long id;
     private String name;
+    private String status;
 
-    public Employee(int id, String name) {
-        this.id = (long) id; // convert int to long
+    public Employee(String name) {
         this.name = name;
+        this.status = "ACTIVE";
+    }
+
+    public Employee(Long id, String name) {
+        this.id = id;
+        this.name = name;
+        this.status = "ACTIVE";
     }
 
     public Employee() {}
@@ -25,6 +32,18 @@ public class Employee {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+    public void changeStatus() {
+        if(this.status.equals("ACTIVE")){
+            this.status = "INACTIVE";
+        }
+        else {
+            this.status = "ACTIVE";
+        }
     }
 
     @Override
