@@ -15,33 +15,38 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
 
-    @GetMapping
+    @GetMapping("/all")
     public List<Employee> getAllEmployees() {
         return employeeService.getAllEmployees();
     }
 
-    @GetMapping("/{id}")
-    public Optional<Employee> getEmployeeById(@PathVariable Long id) {
+    @GetMapping("/single")
+    public Optional<Employee> getEmployeeById(@RequestParam Long id) {
         return employeeService.getEmployeeById(id);
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public int createEmployee(@RequestBody Employee employee) {
         return employeeService.saveEmployee(employee);
     }
 
-    @PutMapping
+    @PostMapping("/update")
     public int updateEmployee(@RequestBody Employee employee) {
         return employeeService.updateEmployee(employee);
     }
 
-    @PutMapping("/{id}")
-    public int changeEmployeeSatus(@PathVariable Long id) {
-        return employeeService.changeEmployeeSatus(id);
+    @GetMapping("/status/get")
+    public String getEmployeeStatusById(@RequestParam Long id) {
+        return employeeService.getEmployeeStatus(id);
     }
 
-    @DeleteMapping("/{id}")
-    public int deleteEmployee(@PathVariable Long id) {
+    @PostMapping("/status/update")
+    public int updateEmployeeSatus(@RequestParam Long id) {
+        return employeeService.updateEmployeeStatus(id);
+    }
+
+    @PostMapping("/delete")
+    public int deleteEmployee(@RequestParam Long id) {
         return employeeService.deleteEmployee(id);
     }
 }

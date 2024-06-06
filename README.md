@@ -4,7 +4,7 @@ For download:
 > git clone https://github.com/enzhas/Spring-learn.git
  
 Requirement:
->Java 21
+>Java 8
 >
 >maven
 >

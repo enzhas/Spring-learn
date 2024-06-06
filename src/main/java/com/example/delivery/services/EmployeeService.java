@@ -2,12 +2,13 @@ package com.example.delivery.services;
 
 import com.example.delivery.models.Employee;
 import com.example.delivery.repositories.EmployeeRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
+@Slf4j
 @Service
 public class EmployeeService {
 
@@ -34,8 +35,15 @@ public class EmployeeService {
         return employeeRepository.update(employee);
     }
 
-    public int changeEmployeeSatus(Long id) {
-        return employeeRepository.changeStatus(id);
+    public String getEmployeeStatus(Long id) {
+        Optional<Employee> employee = employeeRepository.findById(id);
+        if (employee.isPresent()) {
+            return employee.get().getStatus();
+        }
+        return "Not found";
+    }
+    public int updateEmployeeStatus(Long id) {
+        return employeeRepository.updateStatus(id);
     }
 
     public int deleteEmployee(Long id) {

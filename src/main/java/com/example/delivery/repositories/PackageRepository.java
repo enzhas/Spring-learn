@@ -2,7 +2,9 @@ package com.example.delivery.repositories;
 
 import com.example.delivery.models.Employee;
 import com.example.delivery.models.Package;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -14,48 +16,46 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
+@Slf4j
 public class PackageRepository {
     private final JdbcTemplate jdbcTemplate;
+    private final EmployeeRepository employeeRepository;
 
     @Autowired
-    public PackageRepository(JdbcTemplate jdbcTemplate) {
+    public PackageRepository(JdbcTemplate jdbcTemplate, EmployeeRepository employeeRepository) {
         this.jdbcTemplate = jdbcTemplate;
+        this.employeeRepository = employeeRepository;
     }
 
-    private RowMapper<Package> rowMapper = new RowMapper<Package>() {
+    final private RowMapper<Package> rowMapper = new RowMapper<Package>() {
         @Override
         public Package mapRow(ResultSet rs, int rowNum) throws SQLException {
             Package pack = new Package();
             pack.setId(UUID.fromString(rs.getString("id")));
             pack.setDescription(rs.getString("description"));
             pack.setDeliveryAddress(rs.getString("delivery_address"));
-
-            Employee employee = new Employee();
-            employee.setId(rs.getLong("employee_id"));
-
-            pack.setEmployee(employee);
+            pack.setEmployee(employeeRepository.findById(rs.getLong("employee_id")).orElse(null));
             return pack;
         }
     };
 
     public int save(Package pack) {
         String sql = "INSERT INTO package (id, description, delivery_address, employee_id) VALUES (?, ?, ?, ?)";
-
-//        String sql_free_employee = "INSERT INTO employee (employee_id) VALUES (?)";
-        System.out.println();
-        System.out.println(pack);
-        System.out.println();
         return jdbcTemplate.update(sql, UUID.randomUUID(), pack.getDescription(), pack.getDeliveryAddress(), pack.getEmployee().getId());
     }
 
-    public Optional<Package> findById(UUID id) {
+    public Optional<Package> getById(UUID id) {
         String sql = "SELECT * FROM package WHERE id = ?";
-        Package pack = jdbcTemplate.queryForObject(sql, new Object[]{id.toString()}, rowMapper);
-        return Optional.ofNullable(pack);
+        try {
+            Package pack = jdbcTemplate.queryForObject(sql, new Object[]{id}, rowMapper);
+            return Optional.ofNullable(pack);
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
-    public List<Package> findAll() {
-        String sql = "SELECT * FROM package";
+    public List<Package> getAll() {
+        String sql = "SELECT * FROM package limit 2000";
         return jdbcTemplate.query(sql, rowMapper);
     }
 
@@ -66,6 +66,9 @@ public class PackageRepository {
 
     public int deleteById(UUID id) {
         String sql = "DELETE FROM package WHERE id = ?";
+        if (getById(id).isPresent()) {
+            employeeRepository.updateStatus(getById(id).get().getEmployee().getId());
+        }
         return jdbcTemplate.update(sql, id.toString());
     }
 }

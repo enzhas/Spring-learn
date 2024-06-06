@@ -20,17 +20,14 @@ public class PackageService {
     }
 
     public List<Package> getAllPackages() {
-        return packageRepository.findAll();
+        return packageRepository.getAll();
     }
 
     public Optional<Package> getPackageById(UUID id) {
-        return packageRepository.findById(id);
+        return packageRepository.getById(id);
     }
 
     public int savePackage(Package pack) {
-        System.out.println();
-        System.out.println(pack);
-        System.out.println();
         return packageRepository.save(pack);
     }
 

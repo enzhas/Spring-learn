@@ -15,31 +15,28 @@ public class PackageController {
     @Autowired
     private PackageService packageService;
 
-    @GetMapping
+    @GetMapping("/all")
     public List<Package> getAllPackages() {
         return packageService.getAllPackages();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/single/{id}")
     public Optional<Package> getPackageById(@PathVariable UUID id) {
         return packageService.getPackageById(id);
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public int createPackage(@RequestBody Package pack) {
-        System.out.println();
-        System.out.println(pack);
-        System.out.println();
         return packageService.savePackage(pack);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update")
     public int updatePackage(@RequestBody Package pack) {
         return packageService.updatePackage(pack);
     }
 
-    @DeleteMapping("/{id}")
-    public int deletePackage(@PathVariable UUID id) {
+    @DeleteMapping("/delete")
+    public int deletePackage(@RequestParam UUID id) {
         return packageService.deletePackage(id);
     }
 }

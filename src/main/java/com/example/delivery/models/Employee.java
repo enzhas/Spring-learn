@@ -1,43 +1,19 @@
 package com.example.delivery.models;
 
+import lombok.*;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Employee {
     private Long id;
     private String name;
     private String status;
+// todo
+//  raname change statu add search and rename active and INactive
 
-    public Employee(String name) {
-        this.name = name;
-        this.status = "ACTIVE";
-    }
-
-    public Employee(Long id, String name) {
-        this.id = id;
-        this.name = name;
-        this.status = "ACTIVE";
-    }
-
-    public Employee() {}
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-    public void changeStatus() {
+    public void updateStatus() {
         if(this.status.equals("ACTIVE")){
             this.status = "INACTIVE";
         }
@@ -45,9 +21,5 @@ public class Employee {
             this.status = "ACTIVE";
         }
     }
-
-    @Override
-    public String toString() {
-        return "Employee [id=" + id + ", name=" + name + "]";
-    }
 }
+
