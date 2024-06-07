@@ -15,6 +15,7 @@ public class Package {
     private String deliveryAddress;
     private String city;
     private String street;
-    private String deliveryPhoneNumber;
+    private String phone;
+    private String status;
     private Employee employee;
 }

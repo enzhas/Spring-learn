@@ -41,13 +41,13 @@ public class EmployeeRepository {
         return jdbcTemplate.update(sql, employee.getName());
     }
 
-    public Optional<Employee> findById(Long id) {
+    public Optional<Employee> getById(Long id) {
         String sql = "SELECT * FROM employee WHERE id = ?";
         Employee employee = jdbcTemplate.queryForObject(sql, new Object[]{id}, rowMapper);
         return Optional.ofNullable(employee);
     }
 
-    public List<Employee> findAll() {
+    public List<Employee> getAll() {
         String sql = "SELECT * FROM employee";
         return jdbcTemplate.query(sql, rowMapper);
     }
@@ -59,7 +59,7 @@ public class EmployeeRepository {
 
     public int updateStatus(Long id){
         String sql = "UPDATE employee SET status = ? WHERE id = ?";
-        Optional<Employee> employee = findById(id);
+        Optional<Employee> employee = getById(id);
         if(employee.isPresent()){
             employee.get().updateStatus();
             return jdbcTemplate.update(sql, employee.get().getStatus(), id);

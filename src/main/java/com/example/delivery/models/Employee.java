@@ -9,9 +9,9 @@ import lombok.Data;
 public class Employee {
     private Long id;
     private String name;
+    private String city;
+    private String phone;
     private String status;
-// todo
-//  raname change statu add search and rename active and INactive
 
     public void updateStatus() {
         if(this.status.equals("ACTIVE")){

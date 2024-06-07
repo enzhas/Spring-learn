@@ -34,7 +34,7 @@ public class PackageRepository {
             pack.setId(UUID.fromString(rs.getString("id")));
             pack.setDescription(rs.getString("description"));
             pack.setDeliveryAddress(rs.getString("delivery_address"));
-            pack.setEmployee(employeeRepository.findById(rs.getLong("employee_id")).orElse(null));
+            pack.setEmployee(employeeRepository.getById(rs.getLong("employee_id")).orElse(null));
             return pack;
         }
     };

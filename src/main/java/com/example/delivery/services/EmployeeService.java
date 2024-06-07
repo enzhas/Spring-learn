@@ -20,11 +20,11 @@ public class EmployeeService {
     }
 
     public List<Employee> getAllEmployees() {
-        return employeeRepository.findAll();
+        return employeeRepository.getAll();
     }
 
     public Optional<Employee> getEmployeeById(Long id) {
-        return employeeRepository.findById(id);
+        return employeeRepository.getById(id);
     }
 
     public int saveEmployee(Employee employee) {
@@ -36,7 +36,7 @@ public class EmployeeService {
     }
 
     public String getEmployeeStatus(Long id) {
-        Optional<Employee> employee = employeeRepository.findById(id);
+        Optional<Employee> employee = employeeRepository.getById(id);
         if (employee.isPresent()) {
             return employee.get().getStatus();
         }
